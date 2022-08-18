@@ -3,6 +3,8 @@
 - [Running K3s on Raspberry Pi](#running-k3s-on-raspberry-pi)
   - [Introduction](#introduction)
   - [Documentation](#documentation)
+  - [Dependencies](#dependencies)
+    - [DHCP](#dhcp)
   - [Benchmarks](#benchmarks)
     - [Storage](#storage)
 
@@ -19,6 +21,43 @@ The use case I am interested in this project is to have an always on and power e
 - [k3s](https://k3s.io/)
 - [Raspberry PI](https://www.raspberrypi.org/)
 - [Pi Storage Benchmark](https://github.com/TheRemote/PiBenchmarks)
+
+
+## Dependencies
+
+### DHCP
+
+When Raspberry PI OS boots it will use DHCP to acquire IP address from DHCP server. In order to have predictable host to IP mappings, we need to create static host entries on the DHCP server.
+
+The exact configuration varies between different network devices.
+
+In case of OpenWrt, I had to append the following lines to `/etc/config/dhcp` configuration file.
+
+```bash
+config host
+	option name 'kube1'
+	option dns '1'
+	option ip '10.0.2.201'
+
+config host
+	option name 'kube2'
+	option dns '1'
+	option ip '10.0.2.202'
+
+config host
+	option name 'kube3'
+	option dns '1'
+	option ip '10.0.2.203'
+```
+
+Once all nodes boot, you can test reachability using `ping` utility:
+
+```bash
+for i in {1..3}
+do
+  ping -c 3 kube$i | grep bytes
+done
+```
 
 ## Benchmarks
 
