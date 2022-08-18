@@ -1,12 +1,15 @@
 # Running K3s on Raspberry Pi
 
 - [Running K3s on Raspberry Pi](#running-k3s-on-raspberry-pi)
-  - [Introduction](#introduction)
-  - [Documentation](#documentation)
-  - [Dependencies](#dependencies)
-    - [DHCP](#dhcp)
-  - [Benchmarks](#benchmarks)
-    - [Storage](#storage)
+	- [Introduction](#introduction)
+	- [Documentation](#documentation)
+	- [Dependencies](#dependencies)
+		- [DHCP](#dhcp)
+	- [Installation](#installation)
+		- [Prepare SD Card](#prepare-sd-card)
+	- [First Boot](#first-boot)
+	- [Benchmarks](#benchmarks)
+		- [Storage](#storage)
 
 
 ## Introduction
@@ -58,6 +61,35 @@ do
   ping -c 3 kube$i | grep bytes
 done
 ```
+
+
+## Installation
+
+### Prepare SD Card
+
+The automated option includes installation of Raspberry PI Imager tool. With this tool you are able to define the following configuration settings before flashing the SD Card.
+
+| Key                                  | Value                         |
+| ------------------------------------ | ----------------------------- |
+| Operating System                     | Raspberry Pi OS Lite (64-bit) |
+| Hostname                             | kube1, kube2, kube3           |
+| Enable SSH                           | True                          |
+| Allow public-key authentication only | True                          |
+| Set authorized_keys for 'ansible'    | <your-public-key>             |
+| Username                             | ansible                       |
+| Password                             | <your-password>               |
+| Configure wireless LAN               | True                          |
+| Wireles LAN country                  | SK                            |
+| SSID                                 | <your-ssid>                   |
+| Set locale settings                  | True                          |
+| Time zone                            | Europe/Bratislava             |
+| Keyboard layout                      | us                            |
+
+
+## First Boot
+
+Once the flashing process is finished insert SD card and power on. The Pies should be available on your local network for further configuration vai Ansible.
+
 
 ## Benchmarks
 
