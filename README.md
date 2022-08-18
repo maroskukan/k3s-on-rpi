@@ -4,6 +4,7 @@
 	- [Introduction](#introduction)
 	- [Documentation](#documentation)
 	- [Dependencies](#dependencies)
+		- [Configuration Management](#configuration-management)
 		- [DHCP](#dhcp)
 	- [Installation](#installation)
 		- [Prepare SD Card](#prepare-sd-card)
@@ -27,6 +28,34 @@ The use case I am interested in this project is to have an always on and power e
 
 
 ## Dependencies
+
+### Configuration Management
+
+In order to leverage Ansible for configuration management you need to ensure that the following prerequsities are met:
+
+- Python runtime - [virtual environment recommended](https://github.com/pyenv/pyenv), tested with version 3.10.2
+- Python modules - described in requirements.txt this will also install ansible-core
+
+```bash
+pip install --upgrade pip setuptools
+pip install -r requirements.txt
+```
+
+Once the nodes are up and running, add their SSH fingerprints to `~./ssh/known_host`:
+
+```bash
+for i in {1..3}
+do
+  ssh-keyscan -H kube$i.home >> ~/.ssh/known_hosts
+done
+```
+
+Finally, verify that ansible can reach all nodes using `ping` module:
+
+```bash
+ansible -m ping cluster
+```
+
 
 ### DHCP
 
@@ -58,7 +87,7 @@ Once all nodes boot, you can test reachability using `ping` utility:
 ```bash
 for i in {1..3}
 do
-  ping -c 3 kube$i | grep bytes
+  ping -c 3 kube$i.home | grep bytes
 done
 ```
 
