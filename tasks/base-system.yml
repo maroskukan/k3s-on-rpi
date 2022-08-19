@@ -1,0 +1,17 @@
+---
+- name: Ensure the hostname includes top level domain.
+  ansible.builtin.hostname:
+    name: "{{ ansible_hostname }}.{{ tld }}"
+    use: systemd
+
+- name: Ensure hosts file includes fqdn.
+  ansible.builtin.lineinfile:
+    dest: /etc/hosts
+    regexp: '^127.0.1.1\t{{ ansible_hostname }}'
+    line: "127.0.1.1\t{{ ansible_hostname }} {{ ansible_hostname }}.{{ tld }}"
+    state: present
+    backup: true
+
+- name: Ensure the timezone is set.
+  community.general.system.timezone:
+    name: "{{ timezone }}"

@@ -9,6 +9,7 @@
 	- [Installation](#installation)
 		- [Prepare SD Card](#prepare-sd-card)
 	- [First Boot](#first-boot)
+	- [Configuration](#configuration)
 	- [Benchmarks](#benchmarks)
 		- [Storage](#storage)
 
@@ -34,11 +35,16 @@ The use case I am interested in this project is to have an always on and power e
 In order to leverage Ansible for configuration management you need to ensure that the following prerequsities are met:
 
 - Python runtime - [virtual environment recommended](https://github.com/pyenv/pyenv), tested with version 3.10.2
-- Python modules - described in requirements.txt this will also install ansible-core
+- Python modules - described in `requirements.txt` this will also install `ansible-core`
+- Ansible Galaxy collections - described in `requirements.yml`
 
 ```bash
 pip install --upgrade pip setuptools
 pip install -r requirements.txt
+```
+
+```bash
+ansible-galaxy install -r requirements.yml
 ```
 
 Once the nodes are up and running, add their SSH fingerprints to `~./ssh/known_host`:
@@ -118,6 +124,17 @@ The automated option includes installation of Raspberry PI Imager tool. With thi
 ## First Boot
 
 Once the flashing process is finished insert SD card and power on. The Pies should be available on your local network for further configuration vai Ansible.
+
+
+## Configuration
+
+Once we met all prerequisites described in [Configuration Management](#configuration-management) and reviewed or updated the `default.config.yml` file we are ready to execute the main playbook.
+
+> Bear in mind that if you set update_packages to true depending on update requiremnets, nodes may be rebooted before continuing with rest the the tasks.
+
+```bash
+ansible-playbook main.yml
+```
 
 
 ## Benchmarks
