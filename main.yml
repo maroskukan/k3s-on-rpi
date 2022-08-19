@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+
+  vars_files:
+    - default.config.yml
+
+  pre_tasks:
+    - name: Include custom configuration.
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ playbook_dir }}/config.yml"
+      tags: ['always']
+
+    - name: Ensure apt cache is updated.
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+  tasks:
+    - import_tasks: tasks/base-system.yml
+      tags: ['base-system']
+      when: configure_system
+
+    - import_tasks: tasks/update-packages.yml
+      tags: ['base-system']
+      when: update_packages

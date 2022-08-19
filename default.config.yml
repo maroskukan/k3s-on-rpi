@@ -1,0 +1,9 @@
+---
+tld: home
+timezone: Europe/Bratislava
+
+
+downloads: /tmp
+
+configure_system: true
+update_packages: true
