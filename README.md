@@ -148,7 +148,7 @@ Once the flashing process is finished insert SD card and power on. The Pies shou
 
 Once we met all prerequisites described in [Configuration Management](#configuration-management) and reviewed or updated the `default.config.yml` file we are ready to execute the main playbook.
 
-> Bear in mind that if you set update_packages to true depending on update requiremnets, nodes may be rebooted before continuing with rest the the tasks.
+> **Warning**: If you set update_packages to true depending on update requiremnets, nodes may be rebooted before continuing with rest the the tasks.
 
 ```bash
 ansible-playbook main.yml
