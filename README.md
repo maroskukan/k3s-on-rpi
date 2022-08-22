@@ -12,6 +12,7 @@
 		- [Prepare SD Card](#prepare-sd-card)
 		- [First Boot](#first-boot)
 		- [Configuration](#configuration)
+		- [Verification](#verification)
 	- [Benchmarks](#benchmarks)
 		- [Storage](#storage)
 
@@ -151,6 +152,37 @@ Once we met all prerequisites described in [Configuration Management](#configura
 
 ```bash
 ansible-playbook main.yml
+```
+
+
+### Verification
+
+Once the configuration has been applied, it is time to verify the cluster state. Start by downloading the kube config file from master node:
+
+```bash
+scp -i ~/.ssh/home/ansible-ed25519 \
+    ansible@kube1.home:~/.kube/config ~/.kube/k3s-config.yaml
+```
+
+Next, update your `KUBECONFIG` variable to point to downloaded file:
+
+```bash
+export KUBECONFIG=~/.kube/k3s-config.yaml
+```
+
+Finally, verify the node state:
+
+```bash
+kubectl get nodes -o wide
+```
+
+If everything worked correctly you should see your nodes in `Ready` state:
+
+```bash
+NAME         STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION   CONTAINER-RUNTIME
+kube1.home   Ready    control-plane,master   41m   v1.24.3+k3s1   10.0.2.201    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+kube2.home   Ready    <none>                 35m   v1.24.3+k3s1   10.0.2.202    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+kube3.home   Ready    <none>                 35m   v1.24.3+k3s1   10.0.2.203    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
 ```
 
 
