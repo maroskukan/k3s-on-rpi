@@ -1,4 +1,12 @@
-[cluster]
-kube1.home role=master
-kube2.home role=worker
-kube3.home role=worker
+all:
+  children:
+    master:
+      hosts:
+        kube1.home
+    worker:
+      hosts:
+        kube[2:3].home
+    cluster:
+      children:
+        master:
+        worker:
