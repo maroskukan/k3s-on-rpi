@@ -3,13 +3,15 @@
 - [Running K3s on Raspberry Pi](#running-k3s-on-raspberry-pi)
 	- [Introduction](#introduction)
 	- [Documentation](#documentation)
+	- [Materials](#materials)
 	- [Dependencies](#dependencies)
 		- [Configuration Management](#configuration-management)
-		- [DHCP](#dhcp)
+		- [Network Management](#network-management)
+			- [DHCP](#dhcp)
 	- [Installation](#installation)
 		- [Prepare SD Card](#prepare-sd-card)
-	- [First Boot](#first-boot)
-	- [Configuration](#configuration)
+		- [First Boot](#first-boot)
+		- [Configuration](#configuration)
 	- [Benchmarks](#benchmarks)
 		- [Storage](#storage)
 
@@ -26,6 +28,19 @@ The use case I am interested in this project is to have an always on and power e
 - [k3s](https://k3s.io/)
 - [Raspberry PI](https://www.raspberrypi.org/)
 - [Pi Storage Benchmark](https://github.com/TheRemote/PiBenchmarks)
+
+
+## Materials
+
+The following materials were used in this build:
+
+| Part Name                         | Part Description   | Part Quantity |
+| --------------------------------- | ------------------ | ------------- |
+| Raspberry Pi 4 Model B 4GB        | ARM SoC Rev 1.5    | 3             |
+| Raspberry Pi 4 USB-C PSU          | PSU 5.1V / 3.0A DC | 3             |
+| Samsung Evo Plus 64 GB            | MicroSD Card       | 2             |
+| Kingston Canvas Select Plus 64 GB | MicroSD Card       | 1             |
+| Acrylic Stackable Case            | Modular Case       | 1             |
 
 
 ## Dependencies
@@ -63,7 +78,9 @@ ansible -m ping cluster
 ```
 
 
-### DHCP
+### Network Management
+
+#### DHCP
 
 When Raspberry PI OS boots it will use DHCP to acquire IP address from DHCP server. In order to have predictable host to IP mappings, we need to create static host entries on the DHCP server.
 
@@ -121,12 +138,12 @@ The automated option includes installation of Raspberry PI Imager tool. With thi
 | Keyboard layout                      | us                            |
 
 
-## First Boot
+### First Boot
 
 Once the flashing process is finished insert SD card and power on. The Pies should be available on your local network for further configuration vai Ansible.
 
 
-## Configuration
+### Configuration
 
 Once we met all prerequisites described in [Configuration Management](#configuration-management) and reviewed or updated the `default.config.yml` file we are ready to execute the main playbook.
 
