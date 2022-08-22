@@ -2,17 +2,7 @@
 - hosts: all
   gather_facts: true
   become: true
-
-  vars_files:
-    - default.config.yml
-
   pre_tasks:
-    - name: Include custom configuration.
-      include_vars: "{{ item }}"
-      with_fileglob:
-        - "{{ playbook_dir }}/config.yml"
-      tags: ['always']
-
     - name: Ensure apt cache is updated.
       apt:
         update_cache: true
@@ -30,8 +20,6 @@
 
 - hosts: master
   become: true
-  vars_files:
-    - default.config.yml
   roles:
     - k3s-common
     - k3s-master
@@ -39,8 +27,6 @@
 
 - hosts: worker
   become: true
-  vars_files:
-    - default.config.yml
   roles:
     - k3s-common
     - k3s-worker
