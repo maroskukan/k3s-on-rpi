@@ -5,9 +5,9 @@
 	- [Documentation](#documentation)
 	- [Materials](#materials)
 	- [Dependencies](#dependencies)
-		- [Configuration Management](#configuration-management)
 		- [Network Management](#network-management)
 			- [DHCP](#dhcp)
+		- [Configuration Management](#configuration-management)
 	- [Installation](#installation)
 		- [Prepare SD Card](#prepare-sd-card)
 		- [First Boot](#first-boot)
@@ -46,39 +46,6 @@ The following materials were used in this build:
 
 ## Dependencies
 
-### Configuration Management
-
-In order to leverage Ansible for configuration management you need to ensure that the following prerequsities are met:
-
-- Python runtime - [virtual environment recommended](https://github.com/pyenv/pyenv), tested with version 3.10.2
-- Python modules - described in `requirements.txt` this will also install `ansible-core`
-- Ansible Galaxy collections - described in `requirements.yml`
-
-```bash
-pip install --upgrade pip setuptools
-pip install -r requirements.txt
-```
-
-```bash
-ansible-galaxy install -r requirements.yml
-```
-
-Once the nodes are up and running, add their SSH fingerprints to `~./ssh/known_host`:
-
-```bash
-for i in {1..3}
-do
-  ssh-keyscan -H kube$i.home >> ~/.ssh/known_hosts
-done
-```
-
-Finally, verify that ansible can reach all nodes using `ping` module:
-
-```bash
-ansible -m ping cluster
-```
-
-
 ### Network Management
 
 #### DHCP
@@ -113,6 +80,39 @@ for i in {1..3}
 do
   ping -c 3 kube$i.home | grep bytes
 done
+```
+
+
+### Configuration Management
+
+In order to leverage Ansible for configuration management you need to ensure that the following prerequsities are met:
+
+- Python runtime - [virtual environment recommended](https://github.com/pyenv/pyenv), tested with version 3.10.2
+- Python modules - described in `requirements.txt` this will also install `ansible-core`
+- Ansible Galaxy collections - described in `requirements.yml`
+
+```bash
+pip install --upgrade pip setuptools
+pip install -r requirements.txt
+```
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
+Once the nodes are up and running, add their SSH fingerprints to `~./ssh/known_host`:
+
+```bash
+for i in {1..3}
+do
+  ssh-keyscan -H kube$i.home >> ~/.ssh/known_hosts
+done
+```
+
+Finally, verify that ansible can reach all nodes using `ping` module:
+
+```bash
+ansible -m ping cluster
 ```
 
 
