@@ -26,3 +26,21 @@
     - import_tasks: tasks/update-packages.yml
       tags: ['base-system']
       when: update_packages
+
+
+- hosts: master
+  become: true
+  vars_files:
+    - default.config.yml
+  roles:
+    - k3s-common
+    - k3s-master
+
+
+- hosts: worker
+  become: true
+  vars_files:
+    - default.config.yml
+  roles:
+    - k3s-common
+    - k3s-worker
