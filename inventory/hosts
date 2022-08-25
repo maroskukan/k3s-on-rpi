@@ -5,7 +5,7 @@ all:
         kube1.home
     worker:
       hosts:
-        kube[2:3].home
+        kube[2:4].home
     cluster:
       children:
         master:

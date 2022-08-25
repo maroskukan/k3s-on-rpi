@@ -37,10 +37,9 @@ The following materials were used in this build:
 
 | Part Name                         | Part Description   | Part Quantity |
 | --------------------------------- | ------------------ | ------------- |
-| Raspberry Pi 4 Model B 4GB        | ARM SoC Rev 1.5    | 3             |
-| Raspberry Pi 4 USB-C PSU          | PSU 5.1V / 3.0A DC | 3             |
-| Samsung Evo Plus 64 GB            | MicroSD Card       | 2             |
-| Kingston Canvas Select Plus 64 GB | MicroSD Card       | 1             |
+| Raspberry Pi 4 Model B 4GB        | ARM SoC Rev 1.5    | 4             |
+| Raspberry Pi 4 USB-C PSU          | PSU 5.1V / 3.0A DC | 4             |
+| SanDisk Ultra UHS-I A1 Class 10   | MicroSD Card       | 4             |
 | Acrylic Stackable Case            | Modular Case       | 1             |
 
 
@@ -71,12 +70,17 @@ config host
 	option name 'kube3'
 	option dns '1'
 	option ip '10.0.2.203'
+
+config host
+	option name 'kube4'
+	option dns '1'
+	option ip '10.0.2.204'
 ```
 
 Once all nodes boot, you can test reachability using `ping` utility:
 
 ```bash
-for i in {1..3}
+for i in {1..4}
 do
   ping -c 3 kube$i.home | grep bytes
 done
@@ -103,8 +107,10 @@ ansible-galaxy install -r requirements.yml
 Once the nodes are up and running, add their SSH fingerprints to `~./ssh/known_host`:
 
 ```bash
-for i in {1..3}
+for i in {1..4}
 do
+  ssh-keygen -f ~/.ssh/known_hosts -R "kube$i.home"
+  ssh-keygen -f ~/.ssh/known_hosts -R "10.0.2.20$i"
   ssh-keyscan -H kube$i.home >> ~/.ssh/known_hosts
 done
 ```
@@ -125,7 +131,7 @@ The automated option includes installation of Raspberry PI Imager tool. With thi
 | Key                                  | Value                         |
 | ------------------------------------ | ----------------------------- |
 | Operating System                     | Raspberry Pi OS Lite (64-bit) |
-| Hostname                             | kube1, kube2, kube3           |
+| Hostname                             | kube1, kube2, kube3, kube4    |
 | Enable SSH                           | True                          |
 | Allow public-key authentication only | True                          |
 | Set authorized_keys for 'ansible'    | <your-public-key>             |
@@ -193,6 +199,24 @@ The following section contains various benchmarks that were evaluated againts co
 ### Storage
 
 The following MicroSD cards were tested and measured using [Pi Storage Benchmark](https://github.com/TheRemote/PiBenchmarks).
+
+```bash
+sudo curl https://raw.githubusercontent.com/TheRemote/PiBenchmarks/master/Storage.sh | sudo bash
+```
+
+SanDisk Ultra UHS-I A1 Class 10 U1 64 GB scored **1225**.
+
+| Category | Test             | Result                 |
+| -------- | ---------------- | ---------------------- |
+| HDParm   | Disk Read        | 42.98 MB/s             |
+| HDParm   | Cached Disk Read | 40.58 Mb/s             |
+| DD       | Disk Write       | 19.7 MB/s              |
+| FIO      | 4k random read   | 3116 IOPS (12465 KB/s) |
+| FIO      | 4k random write  | 859 IOPS (3437 KB/s)   |
+| IOZone   | 4k read          | 9790 KB/s              |
+| IOZone   | 4k write         | 4024 KB/s              |
+| IOZone   | 4k random read   | 9729 KB/s              |
+| IOZone   | 4k random write  | 2863 KB/s              |
 
 Samsung Evo Plus 64 GB scored **1430**.
 
