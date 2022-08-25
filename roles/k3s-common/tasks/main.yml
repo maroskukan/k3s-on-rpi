@@ -8,10 +8,14 @@
     group: root
     mode: 0755
 
-- name: Activating cgroup support
+- name: Enable cgroup support
   ansible.builtin.lineinfile:
     path: /boot/cmdline.txt
     regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
     line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
     backrefs: true
-  notify: reboot
+  register: cgroup
+
+- name: Reboot to activate cgroup support
+  ansible.builtin.reboot:
+  when: cgroup is changed
