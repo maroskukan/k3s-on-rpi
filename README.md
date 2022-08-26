@@ -189,10 +189,34 @@ kubectl get nodes -o wide
 If everything worked correctly you should see your nodes in `Ready` state:
 
 ```bash
-NAME         STATUS   ROLES                  AGE   VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION   CONTAINER-RUNTIME
-kube1.home   Ready    control-plane,master   41m   v1.24.3+k3s1   10.0.2.201    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
-kube2.home   Ready    <none>                 35m   v1.24.3+k3s1   10.0.2.202    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
-kube3.home   Ready    <none>                 35m   v1.24.3+k3s1   10.0.2.203    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+NAME         STATUS   ROLES                  AGE     VERSION        INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION   CONTAINER-RUNTIME
+kube1.home   Ready    control-plane,master   12m     v1.24.3+k3s1   10.0.2.201    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+kube3.home   Ready    <none>                 9m52s   v1.24.3+k3s1   10.0.2.203    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+kube2.home   Ready    <none>                 9m52s   v1.24.3+k3s1   10.0.2.202    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+kube4.home   Ready    <none>                 9m51s   v1.24.3+k3s1   10.0.2.204    <none>        Debian GNU/Linux 11 (bullseye)   5.15.56-v8+      containerd://1.6.6-k3s1
+```
+
+
+### Customization
+
+Apply `worker` labels to node 2 through 4:
+
+```bash
+for i in {2..4}
+do
+  kubectl label nodes kube$i.home kubernetes.io/role=worker
+  kubectl label nodes kube$i.home node-type=worker
+done
+```
+
+Verify afterwards with `kubectl get nodes`.
+
+```bash
+NAME         STATUS   ROLES                  AGE   VERSION
+kube1.home   Ready    control-plane,master   15h   v1.24.3+k3s1
+kube3.home   Ready    worker                 15h   v1.24.3+k3s1
+kube4.home   Ready    worker                 15h   v1.24.3+k3s1
+kube2.home   Ready    worker                 15h   v1.24.3+k3s1
 ```
 
 
