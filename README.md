@@ -13,7 +13,10 @@
 		- [First Boot](#first-boot)
 		- [Configuration](#configuration)
 		- [Verification](#verification)
-		- [Customization](#customization)
+	- [Customization](#customization)
+		- [MetallLB](#metalllb)
+			- [Installation](#installation-1)
+			- [Troubleshooting](#troubleshooting)
 	- [Benchmarks](#benchmarks)
 		- [Storage](#storage)
 
@@ -215,6 +218,28 @@ kube3.home   Ready    worker                 15h   v1.24.3+k3s1
 kube4.home   Ready    worker                 15h   v1.24.3+k3s1
 kube2.home   Ready    worker                 15h   v1.24.3+k3s1
 ```
+
+
+## Customization
+
+### MetallLB
+
+#### Installation
+
+```bash
+kubectl apply -f manifests/MetalLB/metallb-native.yaml
+```
+
+Update the `addresses` value to correspond to your IP network range you want to allocate to LoadBalancer service.
+
+```bash
+kubectl apply -f manifest/MetalLB/AddressPool.yaml
+```
+
+#### Troubleshooting
+
+In case the cluster nodes are using wireless interface, you may need to apply this [workaround](https://github.com/metallb/metallb/issues/454). Otherwise the allocated address for LoadBalancer service may not be reachable automatically.
+
 
 
 ## Benchmarks
