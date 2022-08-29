@@ -15,6 +15,7 @@
 		- [Verification](#verification)
 	- [Benchmarks](#benchmarks)
 		- [Storage](#storage)
+		- [Temperature](#temperature)
 
 
 ## Introduction
@@ -247,3 +248,10 @@ Kingston Canvas Select Plus 64 GB scored **1202**.
 | IOZone   | 4k write         | 3120 KB/s              |
 | IOZone   | 4k random read   | 7395 KB/s              |
 | IOZone   | 4k random write  | 3099 KB/s              |
+
+
+### Temperature
+
+With the `./scripts/get_temp_throttle.sh` you can retrieve the CPU and GPU temperature, CPU core speed and current throttling condition state.
+
+To see this in action, run the script using `watch` command that will automatically refresh every 2 seconds by default and in second terminal window start the stress test with `sudo stress -c 8`. Optionally, have a third window opened with `htop` to see the system resource usage in real time.
