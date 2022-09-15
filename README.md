@@ -285,7 +285,6 @@ Samsung Evo Plus 64 GB scored **1430**.
 
 Kingston Canvas Select Plus 64 GB scored **1202**.
 
-
 | Category | Test             | Result                 |
 | -------- | ---------------- | ---------------------- |
 | HDParm   | Disk Read        | 43.35 MB/s             |
@@ -297,3 +296,20 @@ Kingston Canvas Select Plus 64 GB scored **1202**.
 | IOZone   | 4k write         | 3120 KB/s              |
 | IOZone   | 4k random read   | 7395 KB/s              |
 | IOZone   | 4k random write  | 3099 KB/s              |
+
+
+The following 2.5" SATA Drive in external enclosure connected via USB3.0 were tested and measured using [Pi Storage Benchmark](https://github.com/TheRemote/PiBenchmarks).
+
+Samsung 850 EVO 500G scored **9324**.
+
+| Category | Test             | Result                  |
+| -------- | ---------------- | ----------------------- |
+| HDParm   | Disk Read        | 33.32 MB/s              |
+| HDParm   | Cached Disk Read | 32.81 Mb/s              |
+| DD       | Disk Write       | 30.4 MB/s               |
+| FIO      | 4k random read   | 17793 IOPS (71172 KB/s) |
+| FIO      | 4k random write  | 2389 IOPS (9550 KB/s)   |
+| IOZone   | 4k read          | 88702 KB/s              |
+| IOZone   | 4k write         | 30796 KB/s              |
+| IOZone   | 4k random read   | 84600 KB/s              |
+| IOZone   | 4k random write  | 34834 KB/s              |
